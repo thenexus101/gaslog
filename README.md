@@ -48,7 +48,7 @@ npm install
        - Click "Update" then "Save and Continue"
      - Add test users (IMPORTANT for testing):
        - Click "+ ADD USERS"
-       - Add your email address (e.g., `edwardchoi330@gmail.com`)
+       - Add your email address
        - Click "ADD"
        - Click "Save and Continue"
      - Review and go back to dashboard
