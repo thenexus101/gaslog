@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { GasEntry } from '../../types/gasEntry';
 import { formatDateTime } from '../../utils/dateUtils';
 

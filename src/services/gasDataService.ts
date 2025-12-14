@@ -13,7 +13,7 @@ import {
 /**
  * Search for an existing Gas Log spreadsheet using Drive API
  */
-async function findExistingSpreadsheet(userEmail: string, accessToken: string): Promise<string | null> {
+async function findExistingSpreadsheet(_userEmail: string, accessToken: string): Promise<string | null> {
   try {
     // Search for spreadsheets with the name pattern "Gas Log" owned by the user
     // Using Drive API v3 to search for files

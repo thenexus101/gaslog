@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { GasEntry } from '../../types/gasEntry';
 import {
   calculateTotalSpending,

@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { GasHistoryTable } from '../components/History/GasHistoryTable';
 import { GasHistoryFilters } from '../components/History/GasHistoryFilters';
 import { CSVImportModal } from '../components/Import/CSVImportModal';
@@ -6,7 +6,7 @@ import { useGasData } from '../hooks/useGasData';
 import { parseISO, isAfter, isBefore } from 'date-fns';
 
 export function HistoryPage() {
-  const { entries, vehicles, loading, refreshEntries } = useGasData();
+  const { entries, vehicles, loading } = useGasData();
   const [searchTerm, setSearchTerm] = useState('');
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
@@ -74,7 +74,7 @@ export function HistoryPage() {
         <CSVImportModal
           isOpen={showImportModal}
           onClose={() => setShowImportModal(false)}
-          onImportComplete={async (count) => {
+          onImportComplete={async () => {
             // Refresh is handled automatically by the context
           }}
         />

@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { GoogleOAuthProvider, useGoogleLogin } from '@react-oauth/google';
 import {
   AuthUser,
@@ -8,7 +8,6 @@ import {
   saveSpreadsheetId,
   getSpreadsheetId,
 } from '../services/authService';
-import { createSpreadsheet } from '../services/sheetsService';
 
 interface AuthContextType {
   user: AuthUser | null;

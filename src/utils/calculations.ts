@@ -1,4 +1,4 @@
-import { GasEntry, Vehicle } from '../types/gasEntry';
+import { GasEntry } from '../types/gasEntry';
 
 /**
  * Calculate MPG from mileage and gallons

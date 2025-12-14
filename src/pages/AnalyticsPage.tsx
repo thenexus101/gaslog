@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { CostMetrics } from '../components/Analytics/CostMetrics';
 import { EfficiencyMetrics } from '../components/Analytics/EfficiencyMetrics';
 import { UsageMetrics } from '../components/Analytics/UsageMetrics';

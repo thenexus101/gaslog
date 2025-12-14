@@ -323,7 +323,7 @@ export function GasEntryForm() {
         <CSVImportModal
           isOpen={showImportModal}
           onClose={() => setShowImportModal(false)}
-          onImportComplete={async (count) => {
+          onImportComplete={async () => {
             // Refresh is handled automatically
           }}
           preselectedVehicleId={selectedVehicleId}

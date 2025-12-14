@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import {
   LineChart,
   Line,
@@ -12,7 +12,7 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 import { GasEntry } from '../../types/gasEntry';
-import { format, parseISO, startOfMonth, subMonths, startOfYear, isAfter, isBefore } from 'date-fns';
+import { format, parseISO, startOfMonth, subMonths, startOfYear, isAfter } from 'date-fns';
 
 interface TrendChartsProps {
   entries: GasEntry[];

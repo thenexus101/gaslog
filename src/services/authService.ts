@@ -1,5 +1,3 @@
-import { GoogleLoginResponse, GoogleLoginResponseOffline } from '@react-oauth/google';
-
 export interface AuthUser {
   email: string;
   name: string;
@@ -88,20 +86,19 @@ export function getSpreadsheetId(userEmail?: string): string | null {
   return null;
 }
 
+// This function is no longer used - authentication is handled directly in AuthContext
+// Keeping for potential future use
 export function extractUserFromResponse(
-  response: GoogleLoginResponse | GoogleLoginResponseOffline
+  response: { access_token: string; profileObj?: any }
 ): AuthUser | null {
-  if ('access_token' in response) {
-    // This is a GoogleLoginResponse
+  if ('access_token' in response && response.profileObj) {
     const profile = response.profileObj;
-    if (profile) {
-      return {
-        email: profile.email,
-        name: profile.name,
-        picture: profile.imageUrl,
-        accessToken: response.accessToken,
-      };
-    }
+    return {
+      email: profile.email,
+      name: profile.name,
+      picture: profile.imageUrl,
+      accessToken: response.access_token,
+    };
   }
   return null;
 }
