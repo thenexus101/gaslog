@@ -11,14 +11,26 @@ import {
 } from './sheetsService';
 
 /**
- * Search for an existing Gas Log spreadsheet using Drive API
+ * Generate a unique spreadsheet name for a user
  */
-async function findExistingSpreadsheet(_userEmail: string, accessToken: string): Promise<string | null> {
+function getSpreadsheetNameForUser(userEmail: string): string {
+  // Create a consistent name based on user email
+  // This ensures we can always find the user's spreadsheet
+  return `Gas Log - ${userEmail}`;
+}
+
+/**
+ * Search for an existing Gas Log spreadsheet using Drive API
+ * Uses a user-specific name to ensure we find the correct spreadsheet
+ */
+async function findExistingSpreadsheet(userEmail: string, accessToken: string): Promise<string | null> {
   try {
-    // Search for spreadsheets with the name pattern "Gas Log" owned by the user
-    // Using Drive API v3 to search for files
-    const searchQuery = `name='Gas Log' and mimeType='application/vnd.google-apps.spreadsheet' and trashed=false`;
-    const driveUrl = `https://www.googleapis.com/drive/v3/files?q=${encodeURIComponent(searchQuery)}&fields=files(id,name,createdTime)&orderBy=createdTime desc`;
+    const spreadsheetName = getSpreadsheetNameForUser(userEmail);
+    
+    // Search for spreadsheet with the exact user-specific name
+    // This is a point query - we're looking for a specific file, not searching all files
+    const searchQuery = `name='${spreadsheetName}' and mimeType='application/vnd.google-apps.spreadsheet' and trashed=false`;
+    const driveUrl = `https://www.googleapis.com/drive/v3/files?q=${encodeURIComponent(searchQuery)}&fields=files(id,name,createdTime)&pageSize=1`;
     
     const response = await fetch(driveUrl, {
       headers: {
@@ -33,9 +45,9 @@ async function findExistingSpreadsheet(_userEmail: string, accessToken: string):
 
     const data = await response.json();
     if (data.files && data.files.length > 0) {
-      // Return the most recently created one (first in the list since we sorted by createdTime desc)
+      // Found the user's specific spreadsheet
       const spreadsheetId = data.files[0].id;
-      console.log('Found existing Gas Log spreadsheet:', spreadsheetId);
+      console.log(`Found existing spreadsheet for ${userEmail}:`, spreadsheetId);
       return spreadsheetId;
     }
 
@@ -119,8 +131,8 @@ export async function ensureSpreadsheetExists(): Promise<string> {
   }
 
   // Step 4: Create new spreadsheet if none exists
-  console.log('No existing spreadsheet found, creating new one...');
-  const info = await createSpreadsheet(user.accessToken);
+  console.log(`No existing spreadsheet found for ${user.email}, creating new one...`);
+  const info = await createSpreadsheet(user.accessToken, user.email);
   saveSpreadsheetId(info.spreadsheetId, user.email);
   console.log('✓ Created new spreadsheet:', info.spreadsheetId);
   return info.spreadsheetId;

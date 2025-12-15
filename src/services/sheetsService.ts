@@ -28,8 +28,11 @@ export async function verifyToken(accessToken: string): Promise<boolean> {
 /**
  * Create a new spreadsheet for the user
  */
-export async function createSpreadsheet(accessToken: string): Promise<SpreadsheetInfo> {
+export async function createSpreadsheet(accessToken: string, userEmail?: string): Promise<SpreadsheetInfo> {
   console.log('Creating spreadsheet with token:', accessToken.substring(0, 20) + '...');
+  
+  // Use user-specific name if email is provided
+  const spreadsheetTitle = userEmail ? `Gas Log - ${userEmail}` : 'Gas Log';
   
   const response = await fetch('https://sheets.googleapis.com/v4/spreadsheets', {
     method: 'POST',
@@ -39,7 +42,7 @@ export async function createSpreadsheet(accessToken: string): Promise<Spreadshee
     },
     body: JSON.stringify({
       properties: {
-        title: 'Gas Log',
+        title: spreadsheetTitle,
       },
       sheets: [
         {

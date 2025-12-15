@@ -109,11 +109,36 @@ function AuthProviderInner({ children }: { children: ReactNode }) {
 export function AuthProvider({ children }: { children: ReactNode }) {
   const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
+  // Debug: Log available env vars in development
+  if (import.meta.env.DEV) {
+    console.log('Environment check:', {
+      clientId: clientId ? 'SET' : 'NOT SET',
+      allViteVars: Object.keys(import.meta.env).filter(k => k.startsWith('VITE_')),
+      mode: import.meta.env.MODE,
+    });
+  }
+
   if (!clientId) {
     return (
       <div style={{ padding: '20px', textAlign: 'center' }}>
         <h2>Configuration Error</h2>
         <p>Please set VITE_GOOGLE_CLIENT_ID in your .env file</p>
+        <p style={{ fontSize: '12px', color: '#666', marginTop: '10px' }}>
+          Make sure the .env file is in the project root and contains:<br />
+          <code>VITE_GOOGLE_CLIENT_ID=your-client-id-here</code>
+        </p>
+        <p style={{ fontSize: '12px', color: '#666', marginTop: '10px' }}>
+          <strong>Important:</strong> After creating or updating .env, you must restart the dev server (stop and run <code>npm run dev</code> again).
+        </p>
+        {import.meta.env.DEV && (
+          <details style={{ marginTop: '10px', textAlign: 'left', maxWidth: '600px', margin: '10px auto' }}>
+            <summary style={{ cursor: 'pointer', color: '#666' }}>Debug Info (check browser console for more details)</summary>
+            <pre style={{ fontSize: '10px', background: '#f5f5f5', padding: '10px', marginTop: '5px', overflow: 'auto' }}>
+              Mode: {import.meta.env.MODE}
+              VITE vars: {Object.keys(import.meta.env).filter(k => k.startsWith('VITE_')).join(', ') || 'none'}
+            </pre>
+          </details>
+        )}
       </div>
     );
   }
